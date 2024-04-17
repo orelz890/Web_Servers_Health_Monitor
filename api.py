@@ -67,8 +67,51 @@ def list_webservers():
 
 """ ======================== Not Finished ========================
     TODO - Handle update, delete, and specific webserver retrieval
+           and specific webserver requests history
     ==============================================================
-""" 
+"""
+
+# Get a specific web server
+@app.route('/webservers/<int:id>', methods=['GET'])
+def get_webserver(id):
+    # Retrieve the web server, If don't exist raises 404. 
+    webserver = Webserver.query.get_or_404(id)
+    
+    return jsonify({'name': webserver.name, 'http_url': webserver.http_url, 'status': webserver.status})
+
+
+# Update a Webserver
+@app.route('/webservers/<int:id>', methods=['PUT'])
+def update_webserver(id):
+    
+    # Retrieve the web server, If don't exist raises 404. 
+    webserver = Webserver.query.get_or_404(id)
+    data = request.json
+    webserver.name = data.get('name', webserver.name)
+    webserver.http_url = data.get('http_url', webserver.http_url)
+    db.session.commit()
+    
+    return jsonify({'message': f'Webserver {webserver.name} updated successfully'})
+
+# Delete a Webserver
+@app.route('/webservers/<int:id>', methods=['DELETE'])
+def delete_webserver(id):
+    
+    # Retrieve the web server, If don't exist raises 404.
+    webserver = Webserver.query.get_or_404(id)
+    db.session.delete(webserver)
+    db.session.commit()
+    
+    
+    """ ======================== Not finished ========================
+        TODO - Delete the history too.
+        ==============================================================
+    """
+    
+    
+    return jsonify({'message': 'Webserver deleted successfully'})
+
+
 
 
 

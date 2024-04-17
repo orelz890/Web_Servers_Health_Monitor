@@ -34,9 +34,41 @@ def check_list_webservers():
     print_response(response)
 
 
+def get_specific_webserver(id: int = 1):
+    # Send a GET request to retrieve the web server
+    response = requests.get(f'{base_url}/webservers/{id}')
+    
+    print_response(response)
+
+
+def check_delete_webserver(id: int = 1):
+    response = requests.delete(f'{base_url}/webservers/{id}')
+
+    print_response(response)
+
+
+def check_update_specific_webserver(id: int = 1, name: str = None, http_url: str = None):
+    
+    update_data = {'name': name, 'http_url': http_url}
+    
+    response = requests.put(f'{base_url}/webservers/{id}', json=update_data)
+
+    print_response(response)
+
+
+
 if __name__ == '__main__':
     
     # check_create_webserver()
     check_list_webservers()
+    # get_specific_webserver(id=1)
+    
+    # # Doesn't work yet
+    # check_update_specific_webserver(id=1,name="Test")
+    
+    # check_delete_webserver(id=1)
+    # check_list_webservers()
+    
+    
     
     
