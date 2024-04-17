@@ -11,6 +11,9 @@ import json
 # Initialize db
 from database import DatabaseManager
 
+from sqlalchemy import Index
+
+
 
 db = DatabaseManager.get_db()
 
@@ -55,7 +58,6 @@ class Webserver(db.Model):
             self.name = data.get('name') or self.name
             self.http_url = data.get('http_url') or self.http_url
             self.status = data.get('status') or self.status
-            self.last_checked = data.get('last_checked') or self.last_checked
             
             db.session.commit()
         except SQLAlchemyError as e:
@@ -83,11 +85,15 @@ class Webserver(db.Model):
 """
 class RequestHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    webserver_id = db.Column(db.Integer, db.ForeignKey('webserver.id'), nullable=False)
+    webserver_id = db.Column(db.Integer, db.ForeignKey('webserver.id'), nullable=False, index=True)
     response_code = db.Column(db.Integer)
     latency = db.Column(db.Float)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 
+    # Combines webserver_id and timestamp. useful when frequently running queries that filter or sort based on both of these columns.
+    __table_args__ = (
+        Index('ix_webserver_id_timestamp', 'webserver_id', 'timestamp'),
+    )
     
     # Save the current RequestHistory instance to the database.
     def save(self):
@@ -97,3 +103,10 @@ class RequestHistory(db.Model):
         except SQLAlchemyError as e:
             db.session.rollback()
             raise e
+    
+    
+    def get_data_dict(self):
+        
+        data = {'webserver_id': self.webserver_id, 'response_code': self.response_code, 'latency': self.latency, "timestamp": self.timestamp}
+        
+        return data

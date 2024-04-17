@@ -64,16 +64,16 @@ def check_update_specific_webserver(id: int = 1, name: str = None, http_url: str
 
 if __name__ == '__main__':
     
-    # check_create_webserver({"name": "a", "http_url": "b"})
-    # check_list_webservers()
-    get_specific_webserver(id=3)
-    
-    # # # Doesn't work yet
-    # check_update_specific_webserver(id=3,name="Test10")
-    
-    
-    # check_delete_webserver(id=1)
+    # check_create_webserver({"name": "TestReal", "http_url": "https://www.google.com/"})
     check_list_webservers()
+    # get_specific_webserver(id=3)
+    
+    # # # # Doesn't work yet
+    # check_update_specific_webserver(id=3,name="Test", http_url="")
+    
+    
+    # # check_delete_webserver(id=1)
+    # check_list_webservers()
     
     
     
