@@ -14,6 +14,15 @@ from database import DatabaseManager
 db = DatabaseManager.get_db()
 
 
+
+
+""" ======================== Not Finished ========================
+    TODO - Dont forget to handle errors
+    ==============================================================
+"""
+
+
+
 """
     Database model for storing information about web servers.
 
@@ -27,13 +36,18 @@ class Webserver(db.Model):
     status = db.Column(db.String(20), default='Unknown')
     last_checked = db.Column(db.DateTime, default=datetime.utcnow)
 
-    
-    # TODO - Decide if I want to define a unique constraint on http_url here or in gui
-    """
+
+
+    """ ======================== Not Finished ========================
+        TODO - Add email address?
+        TODO - Decide if I want to define a unique constraint on http_url here or in gui.
+        
         __table_args__ = (
-        UniqueConstraint('http_url', name='uq_http_url')
+            UniqueConstraint('http_url', name='')
         )
+        ==============================================================
     """
+    
 
 
     # Save the current Webserver instance to the database.

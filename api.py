@@ -1,16 +1,16 @@
-# Connection test
+from models import db, Webserver, RequestHistory
 
 from flask import Flask, jsonify, request
 import config
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
-
 app = Flask(__name__)
 app.config.from_object(config.Config)
 db.init_app(app)
 
-from sqlalchemy import text  # Import text from sqlalchemy
+
+# Check connection
+from sqlalchemy import text
 
 @app.route('/')
 def test_db_connection():
@@ -27,5 +27,52 @@ def test_db_connection():
         return f'Error connecting to database: {str(e)}'
 
 
+"""
+    Create a new Webserver record.
+
+    This endpoint accepts a JSON payload containing the 'name' and 'http_url' of the new Webserver.
+    It creates a new Webserver instance and saves it to the database.
+
+    Returns:
+        JSON: Success/Failure indication and the ID of the newly created Webserver.
+"""
+@app.route('/webservers', methods=['POST'])
+def create_webserver():
+    data = request.json
+    new_webserver = Webserver(name=data['name'], http_url=data['http_url'])
+    
+    # Save to database
+    new_webserver.save()
+    
+    return jsonify({'message': f'Webserver <{new_webserver.name}> created successfully', 'id': new_webserver.id}), 201
+
+
+
+"""
+    Retrieve a list of all Webserver records.
+
+    This endpoint returns a JSON array containing details of all Webserver instances in the database,
+    including their IDs, names, HTTP URLs, and statuses.
+
+    Returns:
+        JSON: Containing details of all Webserver instances.
+"""
+@app.route('/webservers', methods=['GET'])
+def list_webservers():
+    webservers = Webserver.query.all()
+    
+    return jsonify([{'id': ws.id, 'name': ws.name, 'http_url': ws.http_url, 'status': ws.status} for ws in webservers]), 200
+
+
+
+""" ======================== Not Finished ========================
+    TODO - Handle update, delete, and specific webserver retrieval
+    ==============================================================
+""" 
+
+
+
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
