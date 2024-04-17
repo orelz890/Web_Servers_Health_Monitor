@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
 
+import json
 
 # Initialize db
 from database import DatabaseManager
@@ -48,7 +49,18 @@ class Webserver(db.Model):
         ==============================================================
     """
     
-
+    # Update the current Webserver.
+    def update_data(self, data: json = {}):
+        try:
+            self.name = data.get('name') or self.name
+            self.http_url = data.get('http_url') or self.http_url
+            self.status = data.get('status') or self.status
+            self.last_checked = data.get('last_checked') or self.last_checked
+            
+            db.session.commit()
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            raise e
 
     # Save the current Webserver instance to the database.
     def save(self):
@@ -58,16 +70,13 @@ class Webserver(db.Model):
         except SQLAlchemyError as e:
             db.session.rollback()
             raise e
-        
-    # Update the status of the Webserver instance.
-    def update_status(self, new_status):
-        try:
-            self.status = new_status
-            db.session.commit()
-        except SQLAlchemyError:
-            db.session.rollback()
-            raise
 
+    def get_data_dict(self):
+        
+        data = {'name': self.name, 'http_url': self.http_url, 'status': self.status}
+        
+        return data
+        
 
 """
     Database model for storing request history related to web servers.

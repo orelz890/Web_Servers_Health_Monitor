@@ -2,7 +2,7 @@ import requests
 import json
 
 # Define the base URL of your Flask application
-base_url = 'http://localhost:5000'  # Update the URL as needed
+base_url = 'http://localhost:5000'
 
 
 """
@@ -50,24 +50,30 @@ def check_delete_webserver(id: int = 1):
 def check_update_specific_webserver(id: int = 1, name: str = None, http_url: str = None):
     
     update_data = {'name': name, 'http_url': http_url}
+    print(f"update_data = {update_data}")
     
     response = requests.put(f'{base_url}/webservers/{id}', json=update_data)
 
     print_response(response)
 
 
+""" =========================================================
+    TODO - Check load, error handling ...
+    =========================================================
+"""
 
 if __name__ == '__main__':
     
-    # check_create_webserver()
-    check_list_webservers()
-    # get_specific_webserver(id=1)
+    # check_create_webserver({"name": "a", "http_url": "b"})
+    # check_list_webservers()
+    get_specific_webserver(id=3)
     
-    # # Doesn't work yet
-    # check_update_specific_webserver(id=1,name="Test")
+    # # # Doesn't work yet
+    # check_update_specific_webserver(id=3,name="Test10")
+    
     
     # check_delete_webserver(id=1)
-    # check_list_webservers()
+    check_list_webservers()
     
     
     

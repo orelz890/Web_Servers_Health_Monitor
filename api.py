@@ -4,6 +4,9 @@ from flask import Flask, jsonify, request
 import config
 from flask_sqlalchemy import SQLAlchemy
 
+import json
+
+
 app = Flask(__name__)
 app.config.from_object(config.Config)
 db.init_app(app)
@@ -61,7 +64,10 @@ def create_webserver():
 def list_webservers():
     webservers = Webserver.query.all()
     
-    return jsonify([{'id': ws.id, 'name': ws.name, 'http_url': ws.http_url, 'status': ws.status} for ws in webservers]), 200
+    data = [ws.get_data_dict() for ws in webservers]
+    
+    # Use json.dumps for pretty print
+    return jsonify(json.dumps(data, indent=4, sort_keys=True)), 200
 
 
 
@@ -77,18 +83,28 @@ def get_webserver(id):
     # Retrieve the web server, If don't exist raises 404. 
     webserver = Webserver.query.get_or_404(id)
     
-    return jsonify({'name': webserver.name, 'http_url': webserver.http_url, 'status': webserver.status})
+    """ ======================== Not finished ========================
+        TODO - Add last 10 requests.
+        ==============================================================
+    """
+
+    data = webserver.get_data_dict()
+    
+    # Use json.dumps for pretty print
+    return jsonify(json.dumps(data, indent=4, sort_keys=True)), 200
 
 
 # Update a Webserver
 @app.route('/webservers/<int:id>', methods=['PUT'])
 def update_webserver(id):
     
+    print(f"im in update_webserver!! data = {request.json}")
+    
     # Retrieve the web server, If don't exist raises 404. 
     webserver = Webserver.query.get_or_404(id)
     data = request.json
-    webserver.name = data.get('name', webserver.name)
-    webserver.http_url = data.get('http_url', webserver.http_url)
+    webserver.update_data(data)
+    
     db.session.commit()
     
     return jsonify({'message': f'Webserver {webserver.name} updated successfully'})
