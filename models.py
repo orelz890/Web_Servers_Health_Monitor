@@ -7,6 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
 
 import json
+import logging
 
 # Initialize db
 from database import DatabaseManager
@@ -17,6 +18,7 @@ from sqlalchemy import Index
 
 db = DatabaseManager.get_db()
 
+health_statuses = {5: "Healthy", -3: "Unhealthy"}
 
 
 
@@ -37,7 +39,7 @@ class Webserver(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), nullable=False)
     http_url = db.Column(db.String(255), nullable=False, unique=True)
-    status = db.Column(db.Integer, default=0, autoincrement=False, nullable=False)
+    status = db.Column(db.Integer, default=0, nullable=False)
     last_checked = db.Column(db.DateTime, default=datetime.utcnow)
 
 
@@ -58,10 +60,11 @@ class Webserver(db.Model):
             self.name = data.get('name') or self.name
             self.http_url = data.get('http_url') or self.http_url
             self.status = data.get('status') or self.status
-            
+
             db.session.commit()
         except SQLAlchemyError as e:
             db.session.rollback()
+            # logging.error(f"Failed to update Webserver: {e}")
             raise e
 
     # Save the current Webserver instance to the database.
@@ -72,17 +75,14 @@ class Webserver(db.Model):
             db.session.commit()
         except SQLAlchemyError as e:
             db.session.rollback()
+            # logging.error(f"Failed to save Webserver: {e}")
             raise e
 
     def get_health(self):
+        return health_statuses.get(self.status) or "Unstable"
 
-        if self.status == 5:
-            return "Healthy"
-        elif self.status == -3:
-            return "Unhealthy"
-        else:
-            return "Unstable"
-    
+
+
     def get_data_dict(self):
         
         data = {
@@ -121,6 +121,7 @@ class RequestHistory(db.Model):
             db.session.commit()
         except SQLAlchemyError as e:
             db.session.rollback()
+            # logging.error(f"Failed to save RequestHistory: {e}")
             raise e
     
     

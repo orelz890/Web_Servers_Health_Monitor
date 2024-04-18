@@ -1,6 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from models import Webserver
-from services import WebserverService
+from schedulerServices import SchedulerService
 from threading import Lock
 import atexit
 
@@ -35,7 +35,7 @@ class Scheduler:
             webservers = Webserver.query.all()
             for webserver in webservers:
                 if webserver and webserver.id:
-                    WebserverService.check_webserver_health(webserver.id)
+                    SchedulerService.check_webserver_health(webserver.id)
 
     def start(self):
         atexit.register(self.shutdown)

@@ -42,6 +42,12 @@ def get_specific_webserver(id: int = 1):
     
     print_response(response)
 
+def get_specific_history(id: int = 1):
+    # Send a GET request to retrieve the web server
+    response = requests.get(f'{base_url}/history/{id}')
+    
+    print_response(response)
+
 
 def check_delete_webserver(id: int = 1):
     
@@ -74,8 +80,10 @@ if __name__ == '__main__':
     # check_list_webservers()
     # get_specific_webserver(id=1)
     
+    # get_specific_history(id=3)
+    
     # # # # Doesn't work yet
-    # check_update_specific_webserver(id=3,name="Test", http_url="")
+    # check_update_specific_webserver(id=1,name="Test")
     
     
     # check_delete_webserver(id=2)
