@@ -1,6 +1,8 @@
 import requests
 import json
 
+from models import RequestHistory
+
 # Define the base URL of your Flask application
 base_url = 'http://localhost:5000'
 
@@ -42,6 +44,7 @@ def get_specific_webserver(id: int = 1):
 
 
 def check_delete_webserver(id: int = 1):
+    
     response = requests.delete(f'{base_url}/webservers/{id}')
 
     print_response(response)
@@ -64,15 +67,18 @@ def check_update_specific_webserver(id: int = 1, name: str = None, http_url: str
 
 if __name__ == '__main__':
     
-    # check_create_webserver({"name": "TestReal", "http_url": "https://www.google.com/"})
+    # check_create_webserver({"name": "Youtube", "http_url": "https://www.youtube.com/"})
+    # check_create_webserver({"name": "Google", "http_url": "https://www.google.com/"})
+    # check_create_webserver({"name": "test", "http_url": "https://www.orelzam.com/"})
     check_list_webservers()
-    # get_specific_webserver(id=3)
+    # get_specific_webserver(id=6)
     
     # # # # Doesn't work yet
     # check_update_specific_webserver(id=3,name="Test", http_url="")
     
     
-    # # check_delete_webserver(id=1)
+    # check_delete_webserver(id=2)
+    
     # check_list_webservers()
     
     

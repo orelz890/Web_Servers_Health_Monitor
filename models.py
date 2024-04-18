@@ -75,7 +75,11 @@ class Webserver(db.Model):
 
     def get_data_dict(self):
         
-        data = {'name': self.name, 'http_url': self.http_url, 'status': self.status}
+        data = {
+            'name': self.name,
+            'http_url': self.http_url,
+            'status': self.status
+        }
         
         return data
         
@@ -89,6 +93,7 @@ class RequestHistory(db.Model):
     response_code = db.Column(db.Integer)
     latency = db.Column(db.Float)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+
 
     # Combines webserver_id and timestamp. useful when frequently running queries that filter or sort based on both of these columns.
     __table_args__ = (
@@ -107,6 +112,11 @@ class RequestHistory(db.Model):
     
     def get_data_dict(self):
         
-        data = {'webserver_id': self.webserver_id, 'response_code': self.response_code, 'latency': self.latency, "timestamp": self.timestamp}
+        data = {
+            'webserver_id': self.webserver_id,
+            'response_code': self.response_code,
+            'latency': self.latency,
+            "timestamp": self.timestamp.strftime('%Y-%m-%d %H:%M:%S') if self.timestamp else 'Unknown'
+        }
         
         return data

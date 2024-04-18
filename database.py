@@ -9,6 +9,7 @@ class DatabaseManager:
     _db = None
     _lock = Lock()  # Lock for thread safety
 
+    # Can be called on the class itself, not on instances of the class
     @classmethod
     def get_db(cls):
         if cls._db is None:
