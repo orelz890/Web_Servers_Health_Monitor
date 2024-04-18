@@ -49,12 +49,14 @@ def test_db_connection():
 @app.route('/webservers', methods=['POST'])
 def create_webserver():
     data = request.json
-    new_webserver = Webserver(name=data['name'], http_url=data['http_url'])
+    new_webserver = Webserver(name=data['name'], http_url=data['http_url'], status=0)
     
     # Save to database
     new_webserver.save()
     
-    return jsonify({'message': f'Webserver <{new_webserver.name}> created successfully', 'id': new_webserver.id}), 201
+    message = f'Webserver <{new_webserver.name}> created successfully'
+    
+    return jsonify({'message': message, 'id': new_webserver.id}), 201
 
 
 
@@ -71,16 +73,20 @@ def create_webserver():
 def list_webservers():
     webservers = Webserver.query.all()
     
-    data = [ws.get_data_dict() for ws in webservers]
+    data = [{"id": ws.id ,"info": ws.get_data_dict()} for ws in webservers]
+    
+    data_json  = json.dumps(data, indent=4, sort_keys=True)
     
     # Use json.dumps for pretty print
-    return jsonify(json.dumps(data, indent=4, sort_keys=True)), 200
+    return jsonify(data_json), 200
 
 
 
 """ ======================== Not Finished ========================
     TODO - Handle update, delete, and specific webserver retrieval
            and specific webserver requests history
+           
+           ERRORs!!!
     ==============================================================
 """
 
@@ -89,18 +95,19 @@ def list_webservers():
 def get_webserver(id):
     # Retrieve the web server, If don't exist raises 404. 
     webserver = Webserver.query.get_or_404(id)
-    
+
     # Query the RequestHistory table for the last 10 records with the specified webserver_id
     last_10_requests = RequestHistory.query.filter_by(webserver_id=id).order_by(desc(RequestHistory.timestamp)).limit(10).all()
 
+
     # Create a list of dictionaries for the last 10 requests
     history_data = [{f"request_{i}": request.get_data_dict() or {}} for i, request in enumerate(last_10_requests)]
-    
-    
+
+
     server_info = webserver.get_data_dict()
-    
+
     data = {"server_info": server_info, "last_10_requests": history_data}
-    
+
     # Use json.dumps for pretty print
     return jsonify(json.dumps(data, indent=4, sort_keys=True)), 200
 
@@ -150,4 +157,5 @@ if __name__ == '__main__':
         db.create_all()
     # Start the scheduler before running the Flask application
     scheduler.start()
-    app.run(debug=True)
+    # app.run(debug=True, use_reloader=False, threaded=False)
+    app.run(debug=True, use_reloader=False)

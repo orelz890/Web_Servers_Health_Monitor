@@ -37,7 +37,7 @@ class Webserver(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), nullable=False)
     http_url = db.Column(db.String(255), nullable=False, unique=True)
-    status = db.Column(db.String(20), default='Unknown')
+    status = db.Column(db.Integer, default=0, autoincrement=False, nullable=False)
     last_checked = db.Column(db.DateTime, default=datetime.utcnow)
 
 
@@ -51,7 +51,7 @@ class Webserver(db.Model):
         )
         ==============================================================
     """
-    
+
     # Update the current Webserver.
     def update_data(self, data: json = {}):
         try:
@@ -67,22 +67,36 @@ class Webserver(db.Model):
     # Save the current Webserver instance to the database.
     def save(self):
         try:
+            print(f"i saved him with status: {self.status}")
             db.session.add(self)
             db.session.commit()
         except SQLAlchemyError as e:
             db.session.rollback()
             raise e
 
+    def get_health(self):
+
+        if self.status == 5:
+            return "Healthy"
+        elif self.status == -3:
+            return "Unhealthy"
+        else:
+            return "Unstable"
+    
     def get_data_dict(self):
         
         data = {
             'name': self.name,
             'http_url': self.http_url,
-            'status': self.status
+            'status': self.status,
+            'health': self.get_health()
         }
         
         return data
-        
+
+
+
+
 
 """
     Database model for storing request history related to web servers.
