@@ -5,6 +5,9 @@ import config
 from flask_sqlalchemy import SQLAlchemy
 
 import json
+from sqlalchemy import text
+
+from scheduler import Scheduler
 
 
 app = Flask(__name__)
@@ -12,14 +15,16 @@ app.config.from_object(config.Config)
 db.init_app(app)
 
 
-# Check connection
-from sqlalchemy import text
+# Initialize the scheduler instance
+scheduler = Scheduler(app)
+
 
 @app.route('/')
 def test_db_connection():
     try:
         # Explicitly declare the SQL expression as a text object
         result = db.session.execute(text('SELECT 1'))
+
         # Fetch the first row to confirm the query executed successfully
         row = result.fetchone()
         if row and row[0] == 1:
@@ -134,4 +139,6 @@ def delete_webserver(id):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+    # Start the scheduler before running the Flask application
+    scheduler.start()
     app.run(debug=True)
