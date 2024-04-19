@@ -28,6 +28,7 @@ class Webserver(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), nullable=False)
     http_url = db.Column(db.String(255), nullable=False, unique=True)
+    protocol = db.Column(db.String(20), default='HTTP')
     status = db.Column(db.Integer, default=0, nullable=False)
     last_checked = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -49,6 +50,7 @@ class Webserver(db.Model):
             self.name = data.get('name') or self.name
             self.http_url = data.get('http_url') or self.http_url
             self.status = data.get('status') or self.status
+            self.protocol = data.get("protocol") or self.protocol
 
             db.session.commit()
         except SQLAlchemyError as e:
@@ -76,7 +78,8 @@ class Webserver(db.Model):
             'name': self.name,
             'http_url': self.http_url,
             'status': self.status,
-            'health': self.get_health()
+            'health': self.get_health(),
+            'protocol': self.protocol
         }
         
         return data
@@ -100,6 +103,9 @@ class RequestHistory(db.Model):
     
     # Save the current RequestHistory instance to the database.
     def save(self):
+        
+        print(f"tring to save in history {self.id}")
+        
         try:
             db.session.add(self)
             db.session.commit()
