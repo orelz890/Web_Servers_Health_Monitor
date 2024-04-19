@@ -10,10 +10,15 @@ base_url = 'http://localhost:5000'
 """
     Print the response status code and content.
 """ 
-def print_response(response: json = None):
+def print_response(response: json = {}):
     if response:
         print('Response Status Code:', response.status_code)
-        print('Response Content:', response.json())
+        try:
+            data = response.json()
+            print(data)
+        except Exception as e:        
+            for v in response:
+                print(v)
     else:
         print("Didn't get a response...")
 
@@ -73,6 +78,8 @@ def check_update_specific_webserver(id: int = 1, name: str = None, http_url: str
 
 if __name__ == '__main__':
     
+    # ======================== TODO - Check giving wrong input (already exist ...) ========================
+    
     # check_create_webserver({"name": "Youtube", "http_url": "https://www.youtube.com/"})
     # check_create_webserver({"name": "Google", "http_url": "https://www.google.com/"})
     # check_create_webserver({"name": "Google", "http_url": "https://www.google.com/"})
@@ -86,9 +93,9 @@ if __name__ == '__main__':
     # check_update_specific_webserver(id=1,name="Test")
     
     
-    # check_delete_webserver(id=2)
+    # check_delete_webserver(id=17)
     
-    # check_list_webservers()
+    check_list_webservers()
     
     print(-3 % 4)
     

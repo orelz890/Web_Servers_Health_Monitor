@@ -3,6 +3,7 @@ from models import db, Webserver, RequestHistory
 from flask import Flask, jsonify, request
 import config
 from flask_sqlalchemy import SQLAlchemy
+import sys
 
 import json
 from sqlalchemy import text
@@ -70,10 +71,7 @@ def list_webservers():
 
 
 """ ======================== Not Finished ========================
-    TODO - Handle update, delete, and specific webserver retrieval
-           and specific webserver requests history
-           
-           ERRORs!!!
+    TODO - ERRORs!!!
     ==============================================================
 """
 
@@ -96,7 +94,7 @@ def get_history(id):
 # Update a Webserver
 @app.route('/webservers/<int:id>', methods=['PUT'])
 def update_webserver(id):
-    
+
     try:
         data = request.json
         message, status_code = WebserverService.update_specific_webserver(id, data)
@@ -111,6 +109,12 @@ def update_webserver(id):
 def delete_webserver(id):
 
     message, status_code = WebserverService.delete_specific_webserver(id)
+    print("================ im here please see me ===================")
+    sys.stdout.flush()
+    print(message, type(message))
+    print("================ im here please see me ===================")
+    sys.stdout.flush()
+
     return jsonify(message), status_code
 
 

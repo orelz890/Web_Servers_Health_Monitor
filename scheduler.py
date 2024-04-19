@@ -3,7 +3,14 @@ from models import Webserver
 from schedulerServices import SchedulerService
 from threading import Lock
 import atexit
+import logging
+from threadpoolManager import ThreadPoolManager
 
+
+""" ================= Not finished ==============
+    Make a thread pool/ select to enhance performance
+    ================= Not finished ==============
+"""
 
 class Scheduler:
     _instance = None
@@ -12,6 +19,7 @@ class Scheduler:
     def __init__(self, app):
         self.scheduler = BackgroundScheduler()
         self.app = app
+        self.thread_pool_manager = ThreadPoolManager(app,max_workers=10)
         self.define_jobs()
 
     @classmethod
@@ -27,15 +35,22 @@ class Scheduler:
             self.scheduler.add_job(
                 func=self.task, 
                 trigger='interval', 
-                seconds=30
+                seconds=45
             )
 
     def task(self):
+        
+        logging.info("STARTED a routine health checks.")
+        
         with self.app.app_context():
             webservers = Webserver.query.all()
-            for webserver in webservers:
-                if webserver and webserver.id:
-                    SchedulerService.check_webserver_health(webserver.id)
+            
+            self.thread_pool_manager.execute_tasks(SchedulerService.check_webserver_health, webservers)
+            
+            # for webserver in webservers:
+            #     if webserver and webserver.id:
+            #         SchedulerService.check_webserver_health(webserver.id)
+        logging.info("FINISHED the routine health checks.")
 
     def start(self):
         atexit.register(self.shutdown)

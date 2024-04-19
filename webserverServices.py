@@ -63,9 +63,13 @@ class WebserverService:
 
     # Get a specific webserver by their ID
     def get_specific_webserver(id:int):
+        webserver = Webserver.query.get_or_404(id)
+        
+        if not webserver:
+            return {'error': "Webserver not found"}, 404
+        
         try:
             # Retrieve the web server; automatically raise 404 if not found
-            webserver = Webserver.query.get_or_404(id)
 
             # Query the RequestHistory table for the last 10 records with the specified webserver_id
             last_10_requests = RequestHistory.query.filter_by(webserver_id=id).order_by(desc(RequestHistory.timestamp)).limit(10).all()
@@ -117,8 +121,10 @@ class WebserverService:
         
         # Retrieve the web server, If don't exist raises 404. 
         webserver = Webserver.query.get_or_404(id)
-        
-        try:            
+        if not webserver:
+            return {'error': "Webserver not found"}, 404
+
+        try:
             # Attempt to update the web server with new data
             webserver.update_data(data)
 
@@ -137,9 +143,13 @@ class WebserverService:
     def delete_specific_webserver(id: int):
         # Retrieve the web server, If don't exist raises 404.
         webserver = Webserver.query.get_or_404(id)
+        if not webserver:
+            return {'error': "Webserver not found"}, 404
+
         try:
             # Delete them together so we will not have history for deleted webserver
-            message = f'Webserver {webserver.name or ""} and all associated histories deleted successfully'
+            message = f"Webserver {webserver.name or id} and all associated histories deleted successfully"
+            
             
             # Delete the history first cuase webserver_id in the webserver history is a ForeignKey.
             RequestHistory.query.filter_by(webserver_id=id).delete()
@@ -148,12 +158,18 @@ class WebserverService:
             
             # Commit changes to database
             db.session.commit()
-        
-            return {'message': message}, 204
+
+            response = {'message': message}
+            
+            data_json = json.dumps(response, indent=4, sort_keys=True)
+            
+            return data_json, 204
 
         except SQLAlchemyError as e:
             db.session.rollback()
-            return {'error': str(e)}, 50
-
+            return {'error': str(e)}, 500
+        except Exception as e:
+            # Handle other unforeseen errors
+            return {'error': 'Unexpected error', 'message': str(e)}, 500
 
 

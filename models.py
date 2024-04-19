@@ -64,8 +64,8 @@ class Webserver(db.Model):
             db.session.commit()
         except SQLAlchemyError as e:
             db.session.rollback()
-            # logging.error(f"Failed to update Webserver: {e}")
             raise e
+        
 
     # Save the current Webserver instance to the database.
     def save(self):
@@ -75,7 +75,6 @@ class Webserver(db.Model):
             db.session.commit()
         except SQLAlchemyError as e:
             db.session.rollback()
-            # logging.error(f"Failed to save Webserver: {e}")
             raise e
 
     def get_health(self):
@@ -93,9 +92,6 @@ class Webserver(db.Model):
         }
         
         return data
-
-
-
 
 
 """
@@ -121,7 +117,6 @@ class RequestHistory(db.Model):
             db.session.commit()
         except SQLAlchemyError as e:
             db.session.rollback()
-            # logging.error(f"Failed to save RequestHistory: {e}")
             raise e
     
     
