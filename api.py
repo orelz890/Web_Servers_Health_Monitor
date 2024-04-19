@@ -109,10 +109,7 @@ def update_webserver(id):
 def delete_webserver(id):
 
     message, status_code = WebserverService.delete_specific_webserver(id)
-    print("================ im here please see me ===================")
-    sys.stdout.flush()
-    print(message, type(message))
-    print("================ im here please see me ===================")
+
     sys.stdout.flush()
 
     return jsonify(message), status_code

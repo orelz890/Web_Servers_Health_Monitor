@@ -93,7 +93,7 @@ if __name__ == '__main__':
     # check_update_specific_webserver(id=1,name="Test")
     
     
-    # check_delete_webserver(id=17)
+    check_delete_webserver(id=16)
     
     check_list_webservers()
     
