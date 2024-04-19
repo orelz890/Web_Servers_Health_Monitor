@@ -7,7 +7,7 @@
 I've encountered a **minor bug** in my most recent commit, and due to time constraints, **I am unable to resolve it before the midnight deadline**. The current version at this [Most Recent Commit](https://github.com/orelz890/Web_Servers_Health_Monitor) functions correctly, except for an issue where the URL health status does not update during scheduled routing checks.
 
 
-For a version without this issue, please refer to this [Fully Working Version](https://github.com/orelz890/Web_Servers_Health_Monitor/tree/fe2efb446ba311ed28a71ab00335bb04ffcd5c4f), which has been **tested** thoroughly with Postman and performs as expected, **though its design is less refined**.
+For a version without this issue, please refer to this [Fully Working Version](https://github.com/orelz890/Web_Servers_Health_Monitor/tree/fe2efb446ba311ed28a71ab00335bb04ffcd5c4f), which has been **tested** with Postman and performs as expected, **though its design is less refined**.
 
 * [SQL DUMP FILE](Dump20240420.sql)
 
