@@ -12,6 +12,7 @@ base_url = 'http://localhost:5000'
 def print_response(response: json = {}):
     if response:
         print('Response Status Code:', response.status_code)
+        # print('error:', response.error or "")
         try:
             data = response.json()
             print(data)
@@ -70,6 +71,15 @@ def check_update_specific_webserver(id: int = 1, name: str = None, http_url: str
     print_response(response)
 
 
+def check_add_admin_email(data: json = None):
+    # update_data = {'webserver_id': id, 'email': "smarterfoodies@gmail.com"}
+    data = data or {'webserver_id': '1', 'email': 'smarterfoodies@gmail.com'}
+    print(f"update_data = {data}")
+    
+    response = requests.post(f'{base_url}/admins', json=data)
+    print_response(response)
+
+
 """ =========================================================
     TODO - Check load, error handling ...
     =========================================================
@@ -92,7 +102,11 @@ if __name__ == '__main__':
     # check_update_specific_webserver(id=20,name="Test")
     
     
-    # check_delete_webserver(id=18)
+    # check_delete_webserver(id=1)
+    
+    # check_create_webserver({"name": "stackoverflow", "http_url": "https://stackoverflow.com/"})
+    
+    # check_add_admin_email({"webserver_id": 2, "email": "smarterfoodies@gmail.com"})
     
     check_list_webservers()
     

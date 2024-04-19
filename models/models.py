@@ -46,13 +46,15 @@ class Webserver(db.Model):
 
     # Update the current Webserver.
     def update_data(self, data: json = {}):
-        try:
+        try:            
             self.name = data.get('name') or self.name
             self.http_url = data.get('http_url') or self.http_url
             self.status = data.get('status') or self.status
             self.protocol = data.get("protocol") or self.protocol
-
+            
+            
             db.session.commit()
+                
         except SQLAlchemyError as e:
             db.session.rollback()
             raise e
@@ -89,7 +91,7 @@ class Webserver(db.Model):
     Database model for storing request history related to web servers.
 """
 class RequestHistory(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     webserver_id = db.Column(db.Integer, db.ForeignKey('webserver.id'), nullable=False, index=True)
     response_code = db.Column(db.Integer)
     latency = db.Column(db.Float)
@@ -122,3 +124,38 @@ class RequestHistory(db.Model):
         }
         
         return data
+
+
+class WebserverAdminEmail(db.Model):
+    """
+    Database model for storing admin emails associated with webservers.
+
+    Each record represents an admin email that receives notifications about its webserver's status.
+    """
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    webserver_id = db.Column(db.Integer, db.ForeignKey('webserver.id'), nullable=False)
+    email = db.Column(db.String(255), nullable=False)
+
+    # Relationship back to the Webserver model
+    webserver = db.relationship('Webserver', backref=db.backref('admin_emails', lazy=True))
+
+    def __repr__(self):
+        return f'<WebserverAdminEmail {self.email}>'
+
+    # Save the current admin instance to the database.
+    def save(self):
+
+        try:
+            db.session.add(self)
+            db.session.commit()
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            raise e
+
+    # Method to serialize data for easy JSONify
+    def get_data_dict(self):
+        return {
+            'id': self.id,
+            'webserver_id': self.webserver_id,
+            'email': self.email
+        }

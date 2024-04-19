@@ -1,23 +1,24 @@
-from models.models import Webserver, RequestHistory, SQLAlchemyError, db
+from models.models import Webserver, RequestHistory, SQLAlchemyError, WebserverAdminEmail, db
 from sqlalchemy import text
 import json
 from sqlalchemy import desc
+import logging
+
 
 class WebserverService:
     
     # Test connection to database
     def test_connection() -> str:
         try:
-
             result = db.session.execute(text('SELECT 1'))
             row = result.fetchone()
             
             if row and row[0] == 1:
-                return 'Database connection successful!'
+                return 'Database connection successful!', 200
             else:
-                return 'Database connection failed!'
+                return 'Database connection failed!', 500
         except Exception as e:
-            return f'Error connecting to database: {str(e)}'
+            return f'Error connecting to database: {str(e)}', 500
 
 
     # Add a new webserver
@@ -34,7 +35,7 @@ class WebserverService:
             return {'message': message, 'id': new_webserver.id}, 201
 
         except SQLAlchemyError as e:
-            # logging.error(f"Database error occurred: {e}")
+            logging.error(f"Database error occurred: {e}")
             return {"error": f"Database error occurred.", "message": f"unable to CREATE webservers. {str(e)}"}, 500
         except ValueError as e:
             return {'error': str(e)}, 500
@@ -54,10 +55,10 @@ class WebserverService:
             # Return JSON response
             return data_json, 200
         except SQLAlchemyError as e:
-            # logging.error(f"Database error occurred: {e}")
+            logging.error(f"Database error occurred: {e}")
             return {"error": f"Database error occurred.", "message": f"unable to GET webservers list. {str(e)}"}, 500
         except Exception as e:
-            # logging.error(f"Unexpected error occurred: {e}")
+            logging.error(f"Unexpected error occurred: {e}")
             return {"error": f"An unexpected error occurred.", "message": f"Unable to GET webservers list. {str(e)}"}, 500
 
 
@@ -85,10 +86,10 @@ class WebserverService:
             return data_json, 200
 
         except SQLAlchemyError as e:
-            # logging.error(f"Database error occurred while accessing webserver {id}: {e}")
+            logging.error(f"Database error occurred while accessing webserver {id}: {e}")
             return {"error": f"Database error occurred.", "message": f"Unable to GET webserver details. {str(e)}"}, 500
         except Exception as e:
-            # logging.error(f"Unexpected error occurred while accessing webserver {id}: {e}")
+            logging.error(f"Unexpected error occurred while accessing webserver {id}: {e}")
             return {"error": "An unexpected error occurred.", "message": f"Unable to GET webserver details. {str(e)}"}, 500
 
 
@@ -109,10 +110,10 @@ class WebserverService:
 
 
         except SQLAlchemyError as e:
-            # logging.error(f"Database error occurred while accessing webserver {id}: {e}")
+            logging.error(f"Database error occurred while accessing webserver {id}: {e}")
             return {"error": f"Database error occurred.", "message": f"Unable to GET webserver HISTORY details. {str(e)}"}, 500
         except Exception as e:
-            # logging.error(f"Unexpected error occurred while accessing webserver {id}: {e}")
+            logging.error(f"Unexpected error occurred while accessing webserver {id}: {e}")
             return {"error": "An unexpected error occurred.", "message": f"Unable to GET webserver HISTORY details. {str(e)}"}, 500
     
     
@@ -134,9 +135,11 @@ class WebserverService:
 
         except SQLAlchemyError as e:
             # Handle database errors
+            logging.error(f"Database error occurred while accessing webserver {id}")
             return {'error': 'Database error', 'message': str(e)}, 500
         except Exception as e:
             # Handle other unforeseen errors
+            logging.error(f"Unexpected error occurred while accessing webserver {id}")
             return {'error': 'Unexpected error', 'message': str(e)}, 500
 
 
@@ -147,18 +150,21 @@ class WebserverService:
             return {'error': "Webserver not found"}, 404
 
         try:
-            # Delete them together so we will not have history for deleted webserver
-            message = f"Webserver {webserver.name or id} and all associated histories deleted successfully"
-            
-            
-            # Delete the history first cuase webserver_id in the webserver history is a ForeignKey.
-            RequestHistory.query.filter_by(webserver_id=id).delete()
-            
-            db.session.delete(webserver)
-            
-            # Commit changes to database
-            db.session.commit()
 
+            # Delete admin emails associated with the webserver first to avoid foreign key constraint errors.
+            WebserverAdminEmail.query.filter_by(webserver_id=id).delete()
+            
+            # Next, delete the history as webserver_id in the webserver history is a ForeignKey.
+            RequestHistory.query.filter_by(webserver_id=id).delete()
+
+            # Now, delete the webserver itself.
+            db.session.delete(webserver)
+
+            # Commit the changes to the database.
+            db.session.commit()
+            
+            message = f"Webserver {webserver.name or id} and all associated histories and admins deleted successfully"
+            
             response = {'message': message}
             
             data_json = json.dumps(response, indent=4, sort_keys=True)
@@ -167,9 +173,36 @@ class WebserverService:
 
         except SQLAlchemyError as e:
             db.session.rollback()
-            return {'error': str(e)}, 500
+            message = f"Database error occurred while deleting from the database: {str(e)}"
+            logging.error(message)
+            return {'error': message}, 500
         except Exception as e:
             # Handle other unforeseen errors
-            return {'error': 'Unexpected error', 'message': str(e)}, 500
+            message = f"Unexpected error occurred while deleting from the database {str(e)}"
+            logging.error(message)
+            return {'error': 'Unexpected error', 'message': message}, 500
 
 
+    def add_new_admin(data: json):
+        
+        message = 'Missing required fields: webserver_id or email'
+        
+        if not data or 'webserver_id' not in data or 'email' not in data:
+            return {'error': message}, 400
+
+        try:
+            print("starting addition")
+            
+            new_admin = WebserverAdminEmail(webserver_id=data['webserver_id'], email=data['email'])
+                        
+            new_admin.save()
+                        
+            message = f'admin <{new_admin.email}> added successfully to {new_admin.webserver_id} admins list'
+            return {'message': message}, 201
+
+        except SQLAlchemyError as e:
+            # logging.error(f"Database error occurred: {e}")
+            message = f"unable to POST the new admin. {str(e)}"
+            return {"error": f"Database error occurred.", "message": message}, 500
+        except ValueError as e:
+            return {'error': str(e)}, 500

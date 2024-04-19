@@ -85,3 +85,16 @@ def delete_webserver(id):
     message, status_code = WebserverService.delete_specific_webserver(id)
 
     return jsonify(message), status_code
+
+
+# Add admin email
+@main.route('/admins', methods=['POST'])
+def add_admin_email():
+    try:
+        data = request.json
+
+        message, status_code = WebserverService.add_new_admin(data)
+        return jsonify(message), status_code
+    except Exception as e:
+        # Handle exceptions that could be raised while accessing request.json
+        return jsonify({'message': f'An error occurred: {str(e)}'}), 500

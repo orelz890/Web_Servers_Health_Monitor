@@ -1,11 +1,9 @@
 import requests
 from services.ProtocolHandler import ProtocolHandler
 import logging
-
-from models.models import Webserver, RequestHistory
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from datetime import datetime, timedelta
-from models.models import db
+from models.models import db, RequestHistory
 from typing import Tuple
 
 
@@ -56,7 +54,7 @@ class HTTPSchedulerService(ProtocolHandler):
     
     
     def update_webserver_status(self, webserver, success):        
-        
+                
         new_status = webserver.status
         if success:
             if 0 <= new_status <= 4:
@@ -71,7 +69,8 @@ class HTTPSchedulerService(ProtocolHandler):
 
         try:
             webserver.update_data({"status": new_status})
-        
+            
+                
         # Catch Integrity exception - happens when deleted a webserver and his history but the schduler already queried the database before and then trying to do regular health check on a deleted webserver. It is handled in the update_data function and passed to this higher level function.
         
         except IntegrityError as e:
@@ -80,7 +79,7 @@ class HTTPSchedulerService(ProtocolHandler):
         # Catch any other exeption related to the database
         except SQLAlchemyError as e:
             logging.error(f"SQLAlchemy error updating status for webserver ID {webserver.id}: {str(e)}")
-            
+
 
     def log_request_history(self, webserver_id, response_code, latency):
         
