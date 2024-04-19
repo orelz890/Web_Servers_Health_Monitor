@@ -1,7 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from models.models import Webserver
-from services.schedulerProtocolHandler import ProtocolHandler
-from services.protocolHandlerFactory import ProtocolHandlerFactory
+from services.ProtocolHandler import ProtocolHandler
+from services.protocolServiceFactory import ProtocolHandlerFactory
 from threading import Lock
 import atexit
 import logging
@@ -32,7 +32,7 @@ class Scheduler:
             self.scheduler.add_job(
                 func=self.health_task, 
                 trigger='interval', 
-                seconds=15
+                seconds=30
             )
             
             # Adding a job to delete old request histories every Sunday at midnight

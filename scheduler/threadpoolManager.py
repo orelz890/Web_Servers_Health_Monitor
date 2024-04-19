@@ -1,6 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
 
-from services.protocolHandlerFactory import ProtocolHandlerFactory
+from services.protocolServiceFactory import ProtocolHandlerFactory
 
 # This is the threadpool [MANAGER class]
 class ThreadPoolManager:

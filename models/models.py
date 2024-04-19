@@ -103,9 +103,7 @@ class RequestHistory(db.Model):
     
     # Save the current RequestHistory instance to the database.
     def save(self):
-        
-        print(f"tring to save in history {self.id}")
-        
+                
         try:
             db.session.add(self)
             db.session.commit()

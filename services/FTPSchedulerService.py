@@ -1,5 +1,5 @@
 # services/ftp_handler.py
-from services.schedulerProtocolHandler import ProtocolHandler
+from services.ProtocolHandler import ProtocolHandler
 import logging
 
 class FTPSchedulerService(ProtocolHandler):

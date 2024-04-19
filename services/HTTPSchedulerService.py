@@ -1,5 +1,5 @@
 import requests
-from services.schedulerProtocolHandler import ProtocolHandler
+from services.ProtocolHandler import ProtocolHandler
 import logging
 
 from models.models import Webserver, RequestHistory
@@ -19,17 +19,12 @@ class HTTPSchedulerService(ProtocolHandler):
         
         if not item.http_url:
             message = f"Webserver URL with ID {item.id} not found in a health check."
-            
-            print(message)
-            
+                        
             logging.warning(message)
             return message, 404
         
-        print(f"I perform check_webserver_health. ID: {item.id}")
 
         success, response_code, latency = self.perform_health_check(item.http_url)
-
-        print(f"latency = {latency}")
         
         # Network error or timeout
         if response_code is None:
@@ -37,8 +32,6 @@ class HTTPSchedulerService(ProtocolHandler):
             logging.error(message)
 
             return message, 500
-
-        print("im here please see me.")
         
         self.update_webserver_status(item, success)
         
@@ -48,9 +41,7 @@ class HTTPSchedulerService(ProtocolHandler):
     
     
     def perform_health_check(self, url) -> Tuple[bool, int, float]:
-        
-        print(f"im perform_health_check: {url}")
-        
+                
         try:
             response = requests.get(url, timeout=self.TIMEOUT_SECONDS)
             latency = response.elapsed.total_seconds()
@@ -64,10 +55,7 @@ class HTTPSchedulerService(ProtocolHandler):
             return message, None, None  # None signifies no response code or latency due to exception
     
     
-    def update_webserver_status(self, webserver, success):
-        print("im in here!")
-        
-        print(f"im in update_webserver_status. id: {webserver.id}")
+    def update_webserver_status(self, webserver, success):        
         
         new_status = webserver.status
         if success:
@@ -96,7 +84,6 @@ class HTTPSchedulerService(ProtocolHandler):
 
     def log_request_history(self, webserver_id, response_code, latency):
         
-        print(f"im in update_webserver_status. id: {webserver_id}")
         try:
             RequestHistory(webserver_id=webserver_id, response_code=response_code, latency=latency).save()
         except SQLAlchemyError as e:

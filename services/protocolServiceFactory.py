@@ -1,7 +1,7 @@
 from services.HTTPSchedulerService import HTTPSchedulerService
 from services.FTPSchedulerService import FTPSchedulerService
 from services.SSHSchedulerService import SSHSchedulerService
-from services.schedulerProtocolHandler import ProtocolHandler
+from services.ProtocolHandler import ProtocolHandler
 
 import threading
 import logging
