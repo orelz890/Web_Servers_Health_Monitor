@@ -4,6 +4,7 @@
 ## Description
 The Web Servers Monitoring System is designed to enable real-time health monitoring of web servers in the cloud. Utilizing Flask and SQLAlchemy, this Python application provides a robust API for managing web server records and performing automated health checks based on HTTP response codes and latency.
 
+
 ## Project Architecture
 This project follows a multi-layered architecture designed to separate concerns and promote code reusability and modularity:
 - **API Layer** (`app/app.py`, `api/routes.py`): Flask routes that handle HTTP requests and responses.
@@ -35,6 +36,10 @@ Retrieves the health status and a history of the monitoring requests for individ
 
 **6. Automated Health Checks** 🏥<br>
 Conducts automated health checks at scheduled intervals, assessing each webserver against predefined success criteria related to response codes and latency. This automatic surveillance is crucial for proactive maintenance and ensures high availability.
+
+**7. Periodic Cleanup of Old Data** 🧹<br>
+Automatically deletes request histories that are more than a week old every Sunday at midnight. This scheduled cleanup helps in maintaining the database efficiency by removing outdated data, ensuring that the system storage is optimized and performance remains high.
+
 
 These capabilities collectively provide a robust framework for real-time monitoring and management of web servers, enhancing system reliability and performance.
 

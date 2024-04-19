@@ -29,24 +29,44 @@ class Scheduler:
     def define_jobs(self):
         with self.app.app_context():
             self.scheduler.add_job(
-                func=self.task, 
+                func=self.health_task, 
                 trigger='interval', 
                 seconds=45
             )
+            
+            # Adding a job to delete old request histories every Sunday at midnight
+            self.scheduler.add_job(
+                func=self.delete_old_request_histories, 
+                trigger='cron', 
+                day_of_week='sun', 
+                hour=0, 
+                minute=0
+            )
 
-    def task(self):
+    
+    def health_task(self):
         
         logging.info("STARTED a routine health checks.")
         
-        with self.app.app_context():
-            webservers = Webserver.query.all()
+        try:
+            with self.app.app_context():
+                webservers = Webserver.query.all()
+                self.thread_pool_manager.execute_tasks(SchedulerService.check_webserver_health, webservers)
             
-            self.thread_pool_manager.execute_tasks(SchedulerService.check_webserver_health, webservers)
-            
-            # for webserver in webservers:
-            #     if webserver and webserver.id:
-            #         SchedulerService.check_webserver_health(webserver.id)
-        logging.info("FINISHED the routine health checks.")
+            logging.info("FINISHED the routine health checks.")
+
+        except Exception as e:
+            # Log the exception with an error level log.
+            logging.error(f"An error occurred during the routine health checks: {str(e)}")
+
+    
+    def delete_old_request_histories():
+        logging.info("STARTED a routine weekly delete.")
+        
+        SchedulerService.delete_old_request_histories()
+        
+        logging.info("FINISHED the routine weekly delete.")
+        
 
     def start(self):
         atexit.register(self.shutdown)

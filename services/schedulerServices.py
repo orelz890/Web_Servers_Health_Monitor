@@ -2,6 +2,8 @@ from models.models import Webserver, RequestHistory
 import requests
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 import logging
+from datetime import datetime, timedelta
+from models.models import db
 
 # This is the [WORKER class] for the scheduler threadpool
 class SchedulerService:
@@ -78,3 +80,15 @@ class SchedulerService:
             RequestHistory(webserver_id=webserver_id, response_code=response_code, latency=latency).save()
         except SQLAlchemyError as e:
             logging.error(f"Failed to save request history for webserver ID {webserver_id}: {str(e)}")
+
+
+    @staticmethod
+    def delete_old_request_histories():
+        week_ago = datetime.utcnow() - timedelta(days=7)
+        try:
+            old_entries_count = RequestHistory.query.filter(RequestHistory.timestamp < week_ago).delete()
+            db.session.commit()
+            logging.info(f"Deleted {old_entries_count} old request histories successfully.")
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            logging.error(f"Failed to delete old request histories: {str(e)}")
