@@ -2,18 +2,27 @@
 # Web Servers Monitoring System 🌐🔍
 
 ## Description
-The Web Servers Monitoring System is designed to enable real-time health monitoring of web servers in the cloud. Utilizing Flask and SQLAlchemy, this Python application provides a robust API for managing web server records and performing automated health checks based on HTTP response codes and latency.
+The Web Servers Monitoring System is designed to enable real-time health monitoring of web servers in the cloud. Utilizing Flask and SQLAlchemy, this Python application provides a robust API for managing web server records and performing automated health checks based on various network protocols like HTTP, FTP, and SSH.
 
 
 ## Project Architecture
 This project follows a multi-layered architecture designed to separate concerns and promote code reusability and modularity:
-- **API Layer** (`app/app.py`, `api/routes.py`): Flask routes that handle HTTP requests and responses.
-- **Service Layer** (`services/webserverServices.py`, `services/schedulerServices.py`): Business logic and service routines. `services/schedulerServices.py` acts as a worker class within the threading model.
-- **Model Layer** (`models/models.py`): Database schema definitions using SQLAlchemy.
-- **Scheduler Layer** (`scheduler/scheduler.py`, `scheduler/threadpoolManager.py`): Utilizes APScheduler for scheduling tasks and a custom thread pool to enhance performance by concurrent execution of health checks.
+- **API Layer:** [app](app/app.py), [routes](api/routes.py): Flask routes that handle HTTP requests and responses.
+- **Service Layer:** Business logic and service routines : [webserverServices](services/webserverServices.py), [ProtocolHandler](services/ProtocolHandler.py) acts as a worker class within the scheduler threading model.
+- **Model Layer:** [models](models/models.py): Database schema definitions using SQLAlchemy.
+- **Scheduler Layer:** [scheduler](scheduler/scheduler.py), [threadpoolManager](scheduler/threadpoolManager.py): Utilizes APScheduler for scheduling tasks and a custom **thread pool** to enhance performance by concurrent execution of health checks.
+- **Protocol Handler Layer:** [Factory](services/protocolHandlerFactory.py): Implements the factory design pattern to manage different protocol handlers, supporting [HTTP-Handler](services/HTTPSchedulerService.py), [FTP-handler](services/FTPSchedulerService.py), and [SSH-Handler](services/SSHSchedulerService.py) protocols through a unified interface.
+
 
 ### OOP Principles and Design
-Object-Oriented Programming (OOP) principles such as encapsulation, inheritance, and polymorphism are extensively used to organize the code into logical, reusable components. Design patterns like Singleton (for database connections, app creation, scheduler management), Service Layer (for encapsulating business logic), and Worker-Manager (for thread management in health checks) are applied to ensure the system is scalable and maintainable.
+The Web Servers Monitoring System employs key Object-Oriented Programming (OOP) principles and design patterns to enhance modularity, scalability, and maintainability:
+
+- **Encapsulation:** Secures object data within well-defined interfaces.<br>
+- **Inheritance:** Uses abstract base classes for code reusability and streamlined protocol handler extensions.<br>
+- **Polymorphism:** Employs a common interface for diverse protocol handlers, enhancing system flexibility.<br>
+- **Abstract Base Classes (ABCs):** Ensures a consistent interface across all protocol handlers, guaranteeing implementation integrity.<br>
+- **Factory Pattern:** Simplifies the addition of new protocol handlers through ProtocolHandlerFactory, maintaining adherence to the open/closed principle.<br>
+- **Singleton Pattern:** Manages single instances of essential resources like database connections to optimize efficiency and avoid conflicts.
 
 
 ## Capabilities 🚀
@@ -51,10 +60,11 @@ These capabilities collectively provide a robust framework for real-time monitor
 - **MySQL**: Relational database management system.
 - **APScheduler**: To schedule periodic health checks.
 - **Requests**: To make HTTP requests to web servers.
-- **GitHub Projects**: Helps in visually organizing and prioritizing tasks
+- **GitHub Projects**: Helps in visually organizing and prioritizing tasks.
+
 
 ## Database Normalization
-The database is normalized to 3NF (Third Normal Form) to avoid data redundancies and maintain data integrity. This ensures that:
+The **database is normalized to 3NF** (Third Normal Form) to avoid data redundancies and maintain data integrity. This ensures that:
 - All tables have a primary key.
 - There are no repeating groups or arrays.
 - All attributes are non-transitively dependent on the primary key in their respective tables.

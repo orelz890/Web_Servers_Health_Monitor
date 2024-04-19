@@ -1,6 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from models.models import Webserver
-from services.schedulerServices import SchedulerService
+from services.ProtocolHandler import ProtocolHandler
+from services.protocolServiceFactory import ProtocolHandlerFactory
 from threading import Lock
 import atexit
 import logging
@@ -31,7 +32,7 @@ class Scheduler:
             self.scheduler.add_job(
                 func=self.health_task, 
                 trigger='interval', 
-                seconds=45
+                seconds=30
             )
             
             # Adding a job to delete old request histories every Sunday at midnight
@@ -47,13 +48,15 @@ class Scheduler:
     def health_task(self):
         
         logging.info("STARTED a routine health checks.")
+        print("STARTED a routine health checks.")
         
         try:
             with self.app.app_context():
                 webservers = Webserver.query.all()
-                self.thread_pool_manager.execute_tasks(SchedulerService.check_webserver_health, webservers)
+                self.thread_pool_manager.execute_tasks(webservers)
             
             logging.info("FINISHED the routine health checks.")
+            print("FINISHED the routine health checks.")
 
         except Exception as e:
             # Log the exception with an error level log.
@@ -63,7 +66,7 @@ class Scheduler:
     def delete_old_request_histories():
         logging.info("STARTED a routine weekly delete.")
         
-        SchedulerService.delete_old_request_histories()
+        ProtocolHandler.delete_old_request_histories()
         
         logging.info("FINISHED the routine weekly delete.")
         

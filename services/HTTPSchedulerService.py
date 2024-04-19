@@ -1,54 +1,62 @@
-from models.models import Webserver, RequestHistory
 import requests
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError
+from services.ProtocolHandler import ProtocolHandler
 import logging
+
+from models.models import Webserver, RequestHistory
+from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from datetime import datetime, timedelta
 from models.models import db
+from typing import Tuple
 
-# This is the [WORKER class] for the scheduler threadpool
-class SchedulerService:
-    SUCCESS_STATUS_CODE_RANGE = range(200, 300)
+
+class HTTPSchedulerService(ProtocolHandler):
     TIMEOUT_SECONDS = 59
-
-    @staticmethod
-    def check_webserver_health(webserver_id):
-        webserver = Webserver.query.get(webserver_id)
-        if not webserver:
-            message = f"Webserver with ID {webserver_id} not found in a health check."
+    SUCCESS_STATUS_CODE_RANGE = range(200, 300)
+    
+    
+    """Override the abstract method from ProtocolHandler to perform an HTTP health check."""
+    def check_webserver_health(self,item):
+        
+        if not item.http_url:
+            message = f"Webserver URL with ID {item.id} not found in a health check."
+                        
             logging.warning(message)
             return message, 404
+        
 
-        success, response_code, latency = SchedulerService.perform_health_check(webserver.http_url)
+        success, response_code, latency = self.perform_health_check(item.http_url)
         
         # Network error or timeout
         if response_code is None:
-            message = f"Network error or timeout occurred while checking {webserver.http_url}"
+            message = f"Network error or timeout occurred while checking {item.http_url}"
             logging.error(message)
 
             return message, 500
+        
+        self.update_webserver_status(item, success)
+        
+        self.log_request_history(item.id, response_code, latency)
 
-        SchedulerService.update_webserver_status(webserver, success)
-        SchedulerService.log_request_history(webserver_id, response_code, latency)
-
-        return f"Webserver: {webserver.id} Health check complete", 200
-
-
-    @staticmethod
-    def perform_health_check(url):
+        return f"Webserver: {item.id} Health check complete", 200
+    
+    
+    def perform_health_check(self, url) -> Tuple[bool, int, float]:
+                
         try:
-            response = requests.get(url, timeout=SchedulerService.TIMEOUT_SECONDS)
+            response = requests.get(url, timeout=self.TIMEOUT_SECONDS)
             latency = response.elapsed.total_seconds()
-            success = response.status_code in SchedulerService.SUCCESS_STATUS_CODE_RANGE and latency < 60
+            success = response.status_code in self.SUCCESS_STATUS_CODE_RANGE and latency < 60
             return success, response.status_code, latency
+        
         except requests.RequestException as e:
             message = f"Exception occurred during health check for {url}: {str(e)}"
             logging.error(message)
 
             return message, None, None  # None signifies no response code or latency due to exception
-
-
-    @staticmethod
-    def update_webserver_status(webserver, success):
+    
+    
+    def update_webserver_status(self, webserver, success):        
+        
         new_status = webserver.status
         if success:
             if 0 <= new_status <= 4:
@@ -74,21 +82,9 @@ class SchedulerService:
             logging.error(f"SQLAlchemy error updating status for webserver ID {webserver.id}: {str(e)}")
             
 
-    @staticmethod
-    def log_request_history(webserver_id, response_code, latency):
+    def log_request_history(self, webserver_id, response_code, latency):
+        
         try:
             RequestHistory(webserver_id=webserver_id, response_code=response_code, latency=latency).save()
         except SQLAlchemyError as e:
             logging.error(f"Failed to save request history for webserver ID {webserver_id}: {str(e)}")
-
-
-    @staticmethod
-    def delete_old_request_histories():
-        week_ago = datetime.utcnow() - timedelta(days=7)
-        try:
-            old_entries_count = RequestHistory.query.filter(RequestHistory.timestamp < week_ago).delete()
-            db.session.commit()
-            logging.info(f"Deleted {old_entries_count} old request histories successfully.")
-        except SQLAlchemyError as e:
-            db.session.rollback()
-            logging.error(f"Failed to delete old request histories: {str(e)}")
