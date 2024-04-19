@@ -1,4 +1,4 @@
-from models import Webserver, RequestHistory
+from models.models import Webserver, RequestHistory
 import requests
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 import logging

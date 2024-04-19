@@ -1,22 +1,11 @@
-from flask import Flask, jsonify, request
-import config
+from flask import Blueprint, jsonify, request
+from services.webserverServices import WebserverService
 
-from models import db
-from scheduler import Scheduler
-from webserverServices import WebserverService
-
-
-app = Flask(__name__)
-app.config.from_object(config.Config)
-db.init_app(app)
-
-
-# Initialize the scheduler instance
-scheduler = Scheduler.get_scheduler(app)
-
+# Define the blueprint: 'main', set its url prefix: app.url/
+main = Blueprint('main', __name__)
 
 # Later it can load the index page. Now lets test the database connection
-@app.route('/')
+@main.route('/')
 def test_db_connection():
     
     return jsonify(WebserverService.test_connection())
@@ -32,7 +21,7 @@ def test_db_connection():
         JSON: Success/Failure indication and the ID of the newly created Webserver.
 """
 
-@app.route('/webservers', methods=['POST'])
+@main.route('/webservers', methods=['POST'])
 def create_webserver():
     
     try:
@@ -53,7 +42,7 @@ def create_webserver():
     Returns:
         JSON: Containing details of all Webserver instances.
 """
-@app.route('/webservers', methods=['GET'])
+@main.route('/webservers', methods=['GET'])
 def list_webservers():
     
     message, status_code = WebserverService.get_webservers_list()
@@ -61,7 +50,7 @@ def list_webservers():
 
 
 # Get a specific web server
-@app.route('/webservers/<int:id>', methods=['GET'])
+@main.route('/webservers/<int:id>', methods=['GET'])
 def get_webserver(id):
     
     message, status_code = WebserverService.get_specific_webserver(id)
@@ -69,7 +58,7 @@ def get_webserver(id):
 
 
 # Get a specific web server history
-@app.route('/history/<int:id>', methods=['GET'])
+@main.route('/history/<int:id>', methods=['GET'])
 def get_history(id):
     
     message, status_code = WebserverService.get_specific_webserver_hisory(id)
@@ -77,7 +66,7 @@ def get_history(id):
 
 
 # Update a Webserver
-@app.route('/webservers/<int:id>', methods=['PUT'])
+@main.route('/webservers/<int:id>', methods=['PUT'])
 def update_webserver(id):
 
     try:
@@ -90,19 +79,9 @@ def update_webserver(id):
 
 
 # Delete a Webserver
-@app.route('/webservers/<int:id>', methods=['DELETE'])
+@main.route('/webservers/<int:id>', methods=['DELETE'])
 def delete_webserver(id):
 
     message, status_code = WebserverService.delete_specific_webserver(id)
 
     return jsonify(message), status_code
-
-
-
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    # Start the scheduler before running the Flask application
-    scheduler.start()
-    # app.run(debug=True, use_reloader=False, threaded=False)
-    app.run(debug=True, use_reloader=False)

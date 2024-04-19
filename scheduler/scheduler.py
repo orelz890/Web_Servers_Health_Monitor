@@ -1,10 +1,10 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-from models import Webserver
-from schedulerServices import SchedulerService
+from models.models import Webserver
+from services.schedulerServices import SchedulerService
 from threading import Lock
 import atexit
 import logging
-from threadpoolManager import ThreadPoolManager
+from scheduler.threadpoolManager import ThreadPoolManager
 
 
 

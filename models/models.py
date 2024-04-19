@@ -6,12 +6,10 @@ from datetime import datetime
 import json
 
 # Initialize db
-from database import DatabaseManager
+from models.database import DatabaseManager
 
 # Database indexing
 from sqlalchemy import Index
-
-
 
 
 db = DatabaseManager.get_db()

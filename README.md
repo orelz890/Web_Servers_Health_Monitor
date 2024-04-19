@@ -6,13 +6,13 @@ The Web Servers Monitoring System is designed to enable real-time health monitor
 
 ## Project Architecture
 This project follows a multi-layered architecture designed to separate concerns and promote code reusability and modularity:
-- **API Layer** (`api.py`): Flask routes that handle HTTP requests and responses.
-- **Service Layer** (`webserverServices.py`, `schedulerServices.py`): Business logic and service routines. `schedulerServices.py` acts as a worker class within the threading model.
-- **Model Layer** (`models.py`): Database schema definitions using SQLAlchemy.
-- **Scheduler Layer** (`scheduler.py`): Utilizes APScheduler for scheduling tasks and a custom thread pool (`threadpoolManager.py`) to enhance performance by concurrent execution of health checks.
+- **API Layer** (`app/app.py`, `api/routes.py`): Flask routes that handle HTTP requests and responses.
+- **Service Layer** (`services/webserverServices.py`, `services/schedulerServices.py`): Business logic and service routines. `services/schedulerServices.py` acts as a worker class within the threading model.
+- **Model Layer** (`models/models.py`): Database schema definitions using SQLAlchemy.
+- **Scheduler Layer** (`scheduler/scheduler.py`, `scheduler/threadpoolManager.py`): Utilizes APScheduler for scheduling tasks and a custom thread pool to enhance performance by concurrent execution of health checks.
 
 ### OOP Principles and Design
-Object-Oriented Programming (OOP) principles such as encapsulation, inheritance, and polymorphism are extensively used to organize the code into logical, reusable components. Design patterns like Singleton (for database connections and scheduler management), Service Layer (for encapsulating business logic), and Worker-Manager (for thread management in health checks) are applied to ensure the system is scalable and maintainable.
+Object-Oriented Programming (OOP) principles such as encapsulation, inheritance, and polymorphism are extensively used to organize the code into logical, reusable components. Design patterns like Singleton (for database connections, app creation, scheduler management), Service Layer (for encapsulating business logic), and Worker-Manager (for thread management in health checks) are applied to ensure the system is scalable and maintainable.
 
 
 ## Capabilities 🚀
@@ -46,6 +46,7 @@ These capabilities collectively provide a robust framework for real-time monitor
 - **MySQL**: Relational database management system.
 - **APScheduler**: To schedule periodic health checks.
 - **Requests**: To make HTTP requests to web servers.
+- **GitHub Projects**: Helps in visually organizing and prioritizing tasks
 
 ## Database Normalization
 The database is normalized to 3NF (Third Normal Form) to avoid data redundancies and maintain data integrity. This ensures that:
@@ -62,7 +63,7 @@ pip install -r requirements.txt
 ```
 
 ### Configuration
-Update the `config.py` with the correct settings for your environment. Here is an example configuration:
+Update the `app/config.py` with the correct settings for your environment. Here is an example configuration:
 ```python
 class Config:
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://username:password@localhost/mydatabase'
@@ -73,11 +74,11 @@ Replace `username`, `password`, and `mydatabase` with your MySQL user, password,
 ### Running the Application
 Navigate to the project directory and run the following command to start the Flask server:
 ```bash
-python api.py
+python main.py
 ```
 
-## API Usage
-Refer to the included Postman collection (`Web_Servers_Monitoring_System.postman_collection.json`) to explore and test the API endpoints. This collection provides pre-configured requests for adding, retrieving, updating, and deleting web server records, as well as fetching their health statuses and request histories.
+<!-- ## API Usage
+Refer to the included Postman collection (`Web_Servers_Monitoring_System.postman_collection.json`) to explore and test the API endpoints. This collection provides pre-configured requests for adding, retrieving, updating, and deleting web server records, as well as fetching their health statuses and request histories. -->
 
 ## License
 This project is proprietary and confidential. Unauthorized copying of files, via any medium, is strictly prohibited.

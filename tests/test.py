@@ -1,7 +1,6 @@
 import requests
 import json
 
-from models import RequestHistory
 
 # Define the base URL of your Flask application
 base_url = 'http://localhost:5000'
@@ -84,15 +83,16 @@ if __name__ == '__main__':
     # check_create_webserver({"name": "Google", "http_url": "https://www.google.com/"})
     # check_create_webserver({"name": "stackoverflow", "http_url": "https://stackoverflow.com/"})
     # check_list_webservers()
-    # get_specific_webserver(id=1)
     
-    # get_specific_history(id=3)
+    # get_specific_webserver(id=20)
     
-    # # # # Doesn't work yet
-    # check_update_specific_webserver(id=1,name="Test")
+    # get_specific_history(id=20)
+    
+    # # # # # Doesn't work yet
+    # check_update_specific_webserver(id=20,name="Test")
     
     
-    # check_delete_webserver(id=16)
+    # check_delete_webserver(id=18)
     
     check_list_webservers()
     

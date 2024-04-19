@@ -1,4 +1,4 @@
-from models import Webserver, RequestHistory, SQLAlchemyError, db
+from models.models import Webserver, RequestHistory, SQLAlchemyError, db
 from sqlalchemy import text
 import json
 from sqlalchemy import desc

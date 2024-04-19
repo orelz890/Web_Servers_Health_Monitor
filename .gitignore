@@ -1,2 +1,9 @@
 config.py
 exceptions.py
+__pycache__
+app.__pycache__
+api.__pycache__
+models.__pycache__
+scheduler.__pycache__
+services.__pycache__
+tests.__pycache__
