@@ -1,31 +1,22 @@
-#  Importing the SQLAlchemy extension for Flask, which provides integration between Flask and SQLAlchemy,
-#  allowing us to work with databases in your Flask application.
-from flask_sqlalchemy import SQLAlchemy
 
 # Helps in handling database-related errors.
 from sqlalchemy.exc import SQLAlchemyError
-from datetime import datetime
 
+from datetime import datetime
 import json
-import logging
 
 # Initialize db
 from database import DatabaseManager
 
+# Database indexing
 from sqlalchemy import Index
+
 
 
 
 db = DatabaseManager.get_db()
 
 health_statuses = {5: "Healthy", -3: "Unhealthy"}
-
-
-
-""" ======================== Not Finished ========================
-    TODO - Dont forget to handle errors
-    ==============================================================
-"""
 
 
 
@@ -70,7 +61,6 @@ class Webserver(db.Model):
     # Save the current Webserver instance to the database.
     def save(self):
         try:
-            print(f"i saved him with status: {self.status}")
             db.session.add(self)
             db.session.commit()
         except SQLAlchemyError as e:

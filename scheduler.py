@@ -7,10 +7,6 @@ import logging
 from threadpoolManager import ThreadPoolManager
 
 
-""" ================= Not finished ==============
-    Make a thread pool/ select to enhance performance
-    ================= Not finished ==============
-"""
 
 class Scheduler:
     _instance = None

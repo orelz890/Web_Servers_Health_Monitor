@@ -82,7 +82,6 @@ if __name__ == '__main__':
     
     # check_create_webserver({"name": "Youtube", "http_url": "https://www.youtube.com/"})
     # check_create_webserver({"name": "Google", "http_url": "https://www.google.com/"})
-    # check_create_webserver({"name": "Google", "http_url": "https://www.google.com/"})
     # check_create_webserver({"name": "stackoverflow", "http_url": "https://stackoverflow.com/"})
     # check_list_webservers()
     # get_specific_webserver(id=1)
@@ -93,7 +92,7 @@ if __name__ == '__main__':
     # check_update_specific_webserver(id=1,name="Test")
     
     
-    check_delete_webserver(id=16)
+    # check_delete_webserver(id=16)
     
     check_list_webservers()
     

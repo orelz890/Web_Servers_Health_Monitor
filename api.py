@@ -1,19 +1,10 @@
-from models import db, Webserver, RequestHistory
-
 from flask import Flask, jsonify, request
 import config
-from flask_sqlalchemy import SQLAlchemy
-import sys
 
-import json
-from sqlalchemy import text
-
+from models import db
 from scheduler import Scheduler
-from datetime import datetime
-from sqlalchemy import desc
-from sqlalchemy.exc import SQLAlchemyError
-
 from webserverServices import WebserverService
+
 
 app = Flask(__name__)
 app.config.from_object(config.Config)
@@ -24,7 +15,7 @@ db.init_app(app)
 scheduler = Scheduler.get_scheduler(app)
 
 
-# Later it will load the index page. Now lets test the connection
+# Later it can load the index page. Now lets test the database connection
 @app.route('/')
 def test_db_connection():
     
@@ -69,12 +60,6 @@ def list_webservers():
     return jsonify(message), status_code
 
 
-
-""" ======================== Not Finished ========================
-    TODO - ERRORs!!!
-    ==============================================================
-"""
-
 # Get a specific web server
 @app.route('/webservers/<int:id>', methods=['GET'])
 def get_webserver(id):
@@ -109,8 +94,6 @@ def update_webserver(id):
 def delete_webserver(id):
 
     message, status_code = WebserverService.delete_specific_webserver(id)
-
-    sys.stdout.flush()
 
     return jsonify(message), status_code
 

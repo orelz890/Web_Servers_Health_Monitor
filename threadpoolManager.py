@@ -1,4 +1,5 @@
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
+
 
 # This is the threadpool [MANAGER class]
 class ThreadPoolManager:
@@ -18,4 +19,3 @@ class ThreadPoolManager:
             for item in items:
                 if item and item.id:
                     executor.submit(task_wrapper, item.id)
-
