@@ -14,7 +14,7 @@ class WebserverService:
             row = result.fetchone()
             
             if row and row[0] == 1:
-                return 'Database connection successful!', 200
+                return 'Created this as a test, the Database connection successful!', 200
             else:
                 return 'Database connection failed!', 500
         except Exception as e:
@@ -48,12 +48,9 @@ class WebserverService:
             webservers = Webserver.query.all()
             # Prepare data for response
             data = [{"id": ws.id, "info": ws.get_data_dict()} for ws in webservers]
-            
-            # Use json.dumps for pretty print
-            data_json  = json.dumps(data, indent=4, sort_keys=True)
-            
-            # Return JSON response
-            return data_json, 200
+
+            return data, 200
+
         except SQLAlchemyError as e:
             logging.error(f"Database error occurred: {e}")
             return {"error": f"Database error occurred.", "message": f"unable to GET webservers list. {str(e)}"}, 500
@@ -81,9 +78,10 @@ class WebserverService:
             server_info = webserver.get_data_dict()
             data = {"server_info": server_info, "last_10_requests": history_data}
 
-            data_json = json.dumps(data, indent=4, sort_keys=True)
+            return data, 200
+            # data_json = json.dumps(data, indent=4, sort_keys=True)
             # Return the response
-            return data_json, 200
+            # return data_json, 200
 
         except SQLAlchemyError as e:
             logging.error(f"Database error occurred while accessing webserver {id}: {e}")
@@ -101,12 +99,10 @@ class WebserverService:
             # Create a list of dictionaries for the last 10 requests
             history_data = [{f"request_{i+1}": request.get_data_dict()} for i, request in enumerate(last_10_requests)]
 
-            data = {"history": history_data}
-
-            data_json = json.dumps(data, indent=4, sort_keys=True)
+            # data = {"history": history_data}
             
             # Return the response
-            return data_json, 200
+            return history_data, 200
 
 
         except SQLAlchemyError as e:

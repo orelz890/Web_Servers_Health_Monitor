@@ -46,17 +46,24 @@ class Webserver(db.Model):
 
     # Update the current Webserver.
     def update_data(self, data: json = {}):
-        try:            
-            self.name = data.get('name') or self.name
-            self.http_url = data.get('http_url') or self.http_url
-            self.status = data.get('status') or self.status
-            self.protocol = data.get("protocol") or self.protocol
+        try:
+            if 'name' in data: 
+                self.name = data.get('name')
+            if 'http_url' in data:
+                self.http_url = data.get('http_url')
+            if 'status' in data:
+                print(data)
+                self.status = data.get('status')
+                print(self.status)
+            if 'protocol' in data:
+                self.protocol = data.get("protocol")
             
             
             db.session.commit()
                 
         except SQLAlchemyError as e:
             db.session.rollback()
+            print(f"error {str(e)}")
             raise e
         
 
