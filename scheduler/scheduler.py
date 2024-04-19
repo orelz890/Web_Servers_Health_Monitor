@@ -32,7 +32,7 @@ class Scheduler:
             self.scheduler.add_job(
                 func=self.health_task, 
                 trigger='interval', 
-                seconds=30
+                seconds=6
             )
             
             # Adding a job to delete old request histories every Sunday at midnight

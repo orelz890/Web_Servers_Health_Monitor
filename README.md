@@ -69,7 +69,19 @@ The **database is normalized to 3NF** (Third Normal Form) to avoid data redundan
 - There are no repeating groups or arrays.
 - All attributes are non-transitively dependent on the primary key in their respective tables.
 
-## Setup and Installation
+# Setup and Installation
+
+
+## Note:
+
+
+---
+I've encountered a minor bug in my most recent commit, and due to time constraints, I am unable to resolve it before the midnight deadline. The current version at this [Most Recent Commit](https://github.com/orelz890/Web_Servers_Health_Monitor) functions correctly, except for an issue where the URL health status does not update during scheduled routing checks.
+
+
+For a version without this issue, please refer to this [Fully Working Version](https://github.com/orelz890/Web_Servers_Health_Monitor/tree/fe2efb446ba311ed28a71ab00335bb04ffcd5c4f), which has been tested thoroughly with Postman and performs as expected, though its design is less refined.
+---
+
 
 ### Requirements
 Python 3.8 or higher and pip should be installed on your system. You can install all dependencies via pip:
