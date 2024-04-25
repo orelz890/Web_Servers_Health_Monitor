@@ -1,0 +1,1255 @@
+{
+	"info": {
+		"_postman_id": "14d7e3ad-bbcd-45bf-b178-7dbcb3bcfcb7",
+		"name": "Health Check Webserver API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34385545"
+	},
+	"item": [
+		{
+			"name": "Connection Test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						""
+					],
+					"query": [
+						{
+							"key": null,
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Connection Test",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								""
+							],
+							"query": [
+								{
+									"key": null,
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:23:26 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "75"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    \"Created this as a test, the Database connection successful!\",\n    200\n]"
+				}
+			]
+		},
+		{
+			"name": "Get Webservers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/webservers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"webservers"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Webservers",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/webservers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:23:38 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "3"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "[]"
+				}
+			]
+		},
+		{
+			"name": "Add a webserver",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Youtube\", \"http_url\": \"https://www.youtube.com/\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/webservers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"webservers"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add youtube webserver",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Youtube\", \"http_url\": \"https://www.youtube.com/\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/webservers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers"
+							]
+						}
+					},
+					"status": "CREATED",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:23:52 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "71"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"message\": \"Webserver <Youtube> created successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Webservers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/webservers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"webservers"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Webservers",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/webservers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:24:10 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "188"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"info\": {\n            \"health\": \"Unstable\",\n            \"http_url\": \"https://www.youtube.com/\",\n            \"name\": \"Youtube\",\n            \"protocol\": \"HTTP\",\n            \"status\": 3\n        }\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "DELETE webserver",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/webservers/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"webservers",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Youtube deleted",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/webservers/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers",
+								"1"
+							]
+						}
+					},
+					"status": "NO CONTENT",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:24:23 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Get Webservers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/webservers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"webservers"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Empty webservers",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/webservers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:25:47 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "3"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "[]"
+				}
+			]
+		},
+		{
+			"name": "Add Webserver",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Youtube\", \"http_url\": \"https://www.youtube.com/\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/webservers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"webservers"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Added Youtube Back",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Youtube\", \"http_url\": \"https://www.youtube.com/\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/webservers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers"
+							]
+						}
+					},
+					"status": "CREATED",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:26:25 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "71"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 2,\n    \"message\": \"Webserver <Youtube> created successfully\"\n}"
+				},
+				{
+					"name": "Add Google",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Google\", \"http_url\": \"https://www.google.com/\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/webservers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers"
+							]
+						}
+					},
+					"status": "CREATED",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:26:53 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "70"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 3,\n    \"message\": \"Webserver <Google> created successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Webservers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/webservers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"webservers"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Shows All",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/webservers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:27:14 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "370"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 2,\n        \"info\": {\n            \"health\": \"Healthy\",\n            \"http_url\": \"https://www.youtube.com/\",\n            \"name\": \"Youtube\",\n            \"protocol\": \"HTTP\",\n            \"status\": 5\n        }\n    },\n    {\n        \"id\": 3,\n        \"info\": {\n            \"health\": \"Unstable\",\n            \"http_url\": \"https://www.google.com/\",\n            \"name\": \"Google\",\n            \"protocol\": \"HTTP\",\n            \"status\": 3\n        }\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Add Webserver With Invalid  URL",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Orel\", \"http_url\": \"https://orelzamler.com/\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/webservers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"webservers"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Webserver Added",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Orel\", \"http_url\": \"https://orelzamler.com/\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/webservers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers"
+							]
+						}
+					},
+					"status": "CREATED",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:27:46 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "68"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 4,\n    \"message\": \"Webserver <Orel> created successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Valid URL history",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/webservers/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"webservers",
+						"3"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Googles History",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/webservers/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers",
+								"3"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:28:35 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1891"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"last_10_requests\": [\n        {\n            \"request_1\": {\n                \"latency\": 1.03741,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:28:30\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_2\": {\n                \"latency\": 0.934289,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:28:24\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_3\": {\n                \"latency\": 1.07568,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:28:18\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_4\": {\n                \"latency\": 0.983884,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:28:12\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_5\": {\n                \"latency\": 1.04928,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:28:06\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_6\": {\n                \"latency\": 0.943354,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:28:00\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_7\": {\n                \"latency\": 1.00018,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:27:54\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_8\": {\n                \"latency\": 0.944266,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:27:48\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_9\": {\n                \"latency\": 0.976082,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:27:42\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_10\": {\n                \"latency\": 1.28651,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:27:36\",\n                \"webserver_id\": 3\n            }\n        }\n    ],\n    \"server_info\": {\n        \"health\": \"Healthy\",\n        \"http_url\": \"https://www.google.com/\",\n        \"name\": \"Google\",\n        \"protocol\": \"HTTP\",\n        \"status\": 5\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Invalid URL History",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/webservers/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"webservers",
+						"4"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Orelzam History",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/webservers/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers",
+								"4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:29:21 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "182"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"last_10_requests\": [],\n    \"server_info\": {\n        \"health\": \"Unstable\",\n        \"http_url\": \"https://orelzamler.com/\",\n        \"name\": \"Orel\",\n        \"protocol\": \"HTTP\",\n        \"status\": 0\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "GET Specific Webserver",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/webservers/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"webservers",
+						"3"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "10 Last Request & Webserver Info",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/webservers/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers",
+								"3"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:29:50 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1888"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"last_10_requests\": [\n        {\n            \"request_1\": {\n                \"latency\": 0.998807,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:29:48\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_2\": {\n                \"latency\": 1.03357,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:29:42\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_3\": {\n                \"latency\": 1.00531,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:29:36\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_4\": {\n                \"latency\": 1.01292,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:29:30\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_5\": {\n                \"latency\": 1.29353,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:29:24\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_6\": {\n                \"latency\": 1.00856,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:29:18\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_7\": {\n                \"latency\": 0.948269,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:29:12\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_8\": {\n                \"latency\": 1.0293,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:29:06\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_9\": {\n                \"latency\": 1.27546,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:29:00\",\n                \"webserver_id\": 3\n            }\n        },\n        {\n            \"request_10\": {\n                \"latency\": 0.959473,\n                \"response_code\": 200,\n                \"timestamp\": \"2024-04-25 19:28:54\",\n                \"webserver_id\": 3\n            }\n        }\n    ],\n    \"server_info\": {\n        \"health\": \"Healthy\",\n        \"http_url\": \"https://www.google.com/\",\n        \"name\": \"Google\",\n        \"protocol\": \"HTTP\",\n        \"status\": 5\n    }\n}"
+				},
+				{
+					"name": "Invalid Has Info But Not History",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Test\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/webservers/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers",
+								"4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:30:15 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "182"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"last_10_requests\": [],\n    \"server_info\": {\n        \"health\": \"Unstable\",\n        \"http_url\": \"https://orelzamler.com/\",\n        \"name\": \"Orel\",\n        \"protocol\": \"HTTP\",\n        \"status\": 0\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "UPDATE Name",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Test\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/webservers/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"webservers",
+						"4"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Name Changed",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Test\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/webservers/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers",
+								"4"
+							]
+						}
+					},
+					"status": "CREATED",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:30:45 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "55"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Webserver Test updated successfully\"\n}"
+				},
+				{
+					"name": "Changed Invalid URL To Valid",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"http_url\": \"https://facebook.com/\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/webservers/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers",
+								"4"
+							]
+						}
+					},
+					"status": "CREATED",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:31:06 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "55"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Webserver Test updated successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get webservers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/webservers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"webservers"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Now His Status Is Healty",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/webservers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"webservers"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:32:13 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "547"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 2,\n        \"info\": {\n            \"health\": \"Healthy\",\n            \"http_url\": \"https://www.youtube.com/\",\n            \"name\": \"Youtube\",\n            \"protocol\": \"HTTP\",\n            \"status\": 5\n        }\n    },\n    {\n        \"id\": 3,\n        \"info\": {\n            \"health\": \"Healthy\",\n            \"http_url\": \"https://www.google.com/\",\n            \"name\": \"Google\",\n            \"protocol\": \"HTTP\",\n            \"status\": 5\n        }\n    },\n    {\n        \"id\": 4,\n        \"info\": {\n            \"health\": \"Healthy\",\n            \"http_url\": \"https://facebook.com/\",\n            \"name\": \"Test\",\n            \"protocol\": \"HTTP\",\n            \"status\": 5\n        }\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Request Dosnt Exist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/doesntexist",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"doesntexist"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Error Handled And Displayed",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/doesntexist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"doesntexist"
+							]
+						}
+					},
+					"status": "NOT FOUND",
+					"code": 404,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.1 Python/3.12.1"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 25 Apr 2024 19:32:55 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "207"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "<!doctype html><html lang=en><title>404 Not Found</title><h1>Not Found</h1><p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>"
+				}
+			]
+		}
+	]
+}

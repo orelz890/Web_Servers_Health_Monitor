@@ -4,7 +4,7 @@ import logging
 
 class FTPSchedulerService(ProtocolHandler):
     
-    def check_webserver_health(self,item):
+    def check_webserver_health(self, url, webserver_id):
         # Placeholder implementation
         message = "FTP health check not implemented yet"
         logging.info(message)

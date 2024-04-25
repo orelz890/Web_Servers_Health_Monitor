@@ -54,11 +54,11 @@ class Webserver(db.Model):
             if 'status' in data:
                 print(data)
                 self.status = data.get('status')
-                print(self.status)
+                print(f"new status is: {self.status}")
             if 'protocol' in data:
                 self.protocol = data.get("protocol")
             
-            
+            print("im about to commit")
             db.session.commit()
                 
         except SQLAlchemyError as e:

@@ -4,16 +4,30 @@
 
 # Important Note:
 
-I've encountered a **minor bug** in my most recent commit, and due to time constraints, **I am unable to resolve it before the midnight deadline**. The current version at this [Most Recent Commit](https://github.com/orelz890/Web_Servers_Health_Monitor) functions correctly, except for an issue where the URL health status does not update during scheduled routing checks.
+
+I've encountered a **minor bug** in my most recent commit, and due to time constraints, **I was unable to resolve it before the midnight deadline**.
+
+### Submitted On Time:
+
+* [Version With the minor bug](https://github.com/orelz890/Web_Servers_Health_Monitor/tree/a772df2feb9cea6e24b0a9046a6227dc59406b54).
+
+* [Previous Fully Working Version - though its design is less refined](https://github.com/orelz890/Web_Servers_Health_Monitor/tree/fe2efb446ba311ed28a71ab00335bb04ffcd5c4f), which has been **tested** thoroughly with Postman and performs as expected.
+
+* [SQL DUMP FILE](results/submittedOnTime/Dump20240420.sql)
+
+* [POSTMAN FILE](results/submittedOnTime/Health%20Check%20Webserver%20API.postman_collection.json)
 
 
-For a version without this issue, please refer to this [Fully Working Version](https://github.com/orelz890/Web_Servers_Health_Monitor/tree/fe2efb446ba311ed28a71ab00335bb04ffcd5c4f), which has been **tested** thoroughly with Postman and performs as expected, **though its design is less refined**.
+### Fixed Version:
 
-* [SQL DUMP FILE](Dump20240420.sql)
+* [SQL DUMP FILE](results/fixedVersion/Dump20240425.sql)
 
-* [POSTMAN FILE](Health%20Check%20Webserver%20API.postman_collection.json)
+* [POSTMAN FILE](results/fixedVersion/Health%20Check%20Webserver%20API.postman_collection2.json)
 
 
+**The last commit is the fixed version(woked 15 mins to fix).**
+
+The problem was that I was passing the Webserver object as an argument, so the changes weren't being saved. Instead, I modified the approach to pass the ID and retrieve the Webserver directly from the MySQL server.
 
 
 ## Description

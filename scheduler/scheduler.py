@@ -39,7 +39,7 @@ class Scheduler:
             self.scheduler.add_job(
                 func=self.delete_old_request_histories, 
                 trigger='cron', 
-                day_of_week='sun', 
+                day_of_week='sun',
                 hour=0, 
                 minute=0
             )
