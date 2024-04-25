@@ -16,7 +16,7 @@ class ProtocolHandler(ABC):
     for health checks. This class defines a common interface for all protocol handlers.
     """
     @abstractmethod
-    def check_webserver_health(self,item):
+    def check_webserver_health(self, url, webserver_id):
         """
         Perform a health check for a given webserver. Must be implemented by each protocol handler.
 
