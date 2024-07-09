@@ -2,35 +2,6 @@
 # Web Servers Monitoring System 🌐🔍
 
 
-# Important Note:
-
-
-I've encountered a **minor bug** in my most recent commit, and due to time constraints, **I was unable to resolve it before the midnight deadline**.
-
-### Submitted On Time:
-
-
-* [Version With the minor bug](https://github.com/orelz890/Web_Servers_Health_Monitor/tree/a772df2feb9cea6e24b0a9046a6227dc59406b54).
-
-* [Previous Fully Working Version - though its design is less refined](https://github.com/orelz890/Web_Servers_Health_Monitor/tree/fe2efb446ba311ed28a71ab00335bb04ffcd5c4f), which has been **tested** thoroughly with Postman and performs as expected.
-
-* [SQL DUMP FILE](results/submittedOnTime/Dump20240420.sql)
-
-* [POSTMAN FILE](results/submittedOnTime/Health%20Check%20Webserver%20API.postman_collection.json)
-
-
-### Fixed Version:
-
-* [SQL DUMP FILE](results/fixedVersion/Dump20240425.sql)
-
-* [POSTMAN FILE](results/fixedVersion/Health%20Check%20Webserver%20API.postman_collection2.json)
-
-
-**The last commit is the fixed version(woked 15 mins to fix).**
-
-The problem was that I was passing the Webserver object as an argument, so the changes weren't being saved. Instead, I modified the approach to pass the ID and retrieve the Webserver directly from the MySQL server.
-
-
 ## Description
 The Web Servers Monitoring System is designed to enable real-time health monitoring of web servers in the cloud. Utilizing Flask and SQLAlchemy, this Python application provides a robust API for managing web server records and performing automated health checks based on various network protocols like HTTP, FTP, and SSH.
 
