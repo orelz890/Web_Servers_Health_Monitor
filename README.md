@@ -102,6 +102,3 @@ python main.py
 
 <!-- ## API Usage
 Refer to the included Postman collection (`Web_Servers_Monitoring_System.postman_collection.json`) to explore and test the API endpoints. This collection provides pre-configured requests for adding, retrieving, updating, and deleting web server records, as well as fetching their health statuses and request histories. -->
-
-## License
-This project is proprietary and confidential. Unauthorized copying of files, via any medium, is strictly prohibited.
